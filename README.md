@@ -8,3 +8,9 @@ A simple work-in-progress game engine made in C++ with GLFW.
 
 
 -# todo: finish readme
+
+
+
+
+
+![MAGE Logo](/images/magelogo.png)
