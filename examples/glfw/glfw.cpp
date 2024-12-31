@@ -1,3 +1,4 @@
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <chrono>
@@ -10,15 +11,15 @@ int main() {
         return -1;
     }
 
-    GLFWwindow* window = glfwCreateWindow(800, 600, "MEGA", nullptr, nullptr);
+    GLFWwindow* window = glfwCreateWindow(800, 600, "MEGA", NULL, NULL);
     if (!window) {
         std::cerr << "GLFW window creation failed!" << std::endl;
         glfwTerminate();
-        return -1;
+        exit(EXIT_FAILURE);
     }
 
     glfwMakeContextCurrent(window);
-
+    gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
     glfwSwapInterval(1);
 
     auto startTime = std::chrono::steady_clock::now();
