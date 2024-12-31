@@ -35,7 +35,8 @@ int main() {
         std::cerr << "GLFW could not initialize!" << std::endl;
         exit(EXIT_FAILURE);
     }
-
+    
+    glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
     GLFWwindow* window = glfwCreateWindow(800, 600, "MAGE Menu", NULL, NULL);
     if (!window) {
         std::cerr << "GLFW window creation failed!" << std::endl;
