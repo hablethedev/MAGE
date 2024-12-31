@@ -8,8 +8,6 @@
 #include <thread>
 #include <cmath>
 
-#define DEBUG_LOG(msg) std::cout << "[DEBUG] " << msg << std::endl;
-
 const char* vertexShaderSource = R"(
     #version 330 core
     layout(location = 0) in vec3 aPos;
@@ -17,7 +15,6 @@ const char* vertexShaderSource = R"(
         gl_Position = vec4(aPos, 1.0);
     }
 )";
-
 
 const char* fragmentShaderSource = R"(
     #version 330 core
@@ -34,12 +31,10 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 }
 
 int main() {
-    DEBUG_LOG("Initializing GLFW...");
     if (!glfwInit()) {
         std::cerr << "GLFW could not initialize!" << std::endl;
         exit(EXIT_FAILURE);
     }
-    DEBUG_LOG("GLFW initialized successfully.");
 
     GLFWwindow* window = glfwCreateWindow(800, 600, "MAGE Menu", NULL, NULL);
     if (!window) {
@@ -47,31 +42,24 @@ int main() {
         glfwTerminate();
         exit(EXIT_FAILURE);
     }
-    DEBUG_LOG("GLFW window created successfully.");
 
     glfwSetKeyCallback(window, key_callback);
     glfwMakeContextCurrent(window);
-    DEBUG_LOG("Making GLFW context current...");
 
-    DEBUG_LOG("Loading OpenGL loader...");
     if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
         std::cerr << "Failed to initialize OpenGL loader!" << std::endl;
         exit(EXIT_FAILURE);
     }
-    DEBUG_LOG("OpenGL loader initialized successfully.");
 
-    DEBUG_LOG("Creating ImGui context...");
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     if (ImGui::GetIO().Fonts == nullptr) {
         std::cerr << "ImGui fonts failed to load!" << std::endl;
         exit(EXIT_FAILURE);
     }
-    DEBUG_LOG("ImGui context created successfully.");
 
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init();
-    DEBUG_LOG("ImGui initialized successfully for GLFW and OpenGL.");
 
     float vertices[] = {
         0.0f,  0.5f, 0.0f,
@@ -128,14 +116,11 @@ int main() {
     glUseProgram(shaderProgram);
 
     int colorLocation = glGetUniformLocation(shaderProgram, "triangleColor");
-    glUniform3f(colorLocation, 1.0f, 0.0f, 0.0f);
 
     auto startTime = std::chrono::steady_clock::now();
     auto lastFrameTime = std::chrono::steady_clock::now();
-
     const float targetFPS = 60.0f;
     const float targetFrameTime = 1.0f / targetFPS;
-    DEBUG_LOG("Target FPS set to 60.");
 
     while (!glfwWindowShouldClose(window)) {
         auto currentFrameTime = std::chrono::steady_clock::now();
@@ -160,31 +145,34 @@ int main() {
         float g = (std::sin(timeInSeconds + 2.0f) + 1.0f) / 2.0f;
         float b = (std::sin(timeInSeconds + 4.0f) + 1.0f) / 2.0f;
 
+        float triangleR = 1.0f - r;
+        float triangleG = 1.0f - g;
+        float triangleB = 1.0f - b;
+
+        glClearColor(r, g, b, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        glUniform3f(colorLocation, triangleR, triangleG, triangleB);
+
+        glBindVertexArray(VAO);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+
         ImGui::Begin("MAGE");
         if (ImGui::Button("Exit")) glfwSetWindowShouldClose(window, GLFW_TRUE);
         ImGui::End();
 
         ImGui::Render();
-        glClearColor(r, g, b, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         glfwSwapBuffers(window);
     }
 
-    DEBUG_LOG("Shutting down ImGui...");
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
-    DEBUG_LOG("ImGui shut down successfully.");
 
     glfwDestroyWindow(window);
     glfwTerminate();
-    DEBUG_LOG("GLFW terminated successfully.");
 
     exit(EXIT_SUCCESS);
 }
