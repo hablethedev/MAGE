@@ -54,10 +54,13 @@ int main() {
         float g = (std::sin(timeInSeconds + 2.0f) + 1.0f) / 2.0f;
         float b = (std::sin(timeInSeconds + 4.0f) + 1.0f) / 2.0f;
 
-        glClearColor(r, g, b, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        ImGui::Begin("MAGE");
+        if (ImGui::Button("Exit")) glfwSetWindowShouldClose(window, GLFW_TRUE);
+        ImGui::End();
 
         ImGui::Render();
+        glClearColor(r, g, b, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         glfwSwapBuffers(window);
