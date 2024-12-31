@@ -8,7 +8,7 @@
 int main() {
     if (!glfwInit()) {
         std::cerr << "GLFW could not initialize!" << std::endl;
-        return -1;
+        exit(EXIT_FAILURE);
     }
 
     GLFWwindow* window = glfwCreateWindow(800, 600, "MEGA", NULL, NULL);
@@ -42,5 +42,5 @@ int main() {
     glfwDestroyWindow(window);
     glfwTerminate();
 
-    return 0;
+    exit(EXIT_SUCCESS);
 }
