@@ -8,6 +8,11 @@
 #include <thread>
 #include <cmath>
 
+static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) glfwSetWindowShouldClose(window, GLFW_TRUE);
+}
+
 int main() {
     if (!glfwInit()) {
         std::cerr << "GLFW could not initialize!" << std::endl;
@@ -21,6 +26,8 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
+    glfwSetKeyCallback(window, key_callback);
+    
     glfwMakeContextCurrent(window);
     gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
     glfwSwapInterval(1);
