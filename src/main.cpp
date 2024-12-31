@@ -19,7 +19,7 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    GLFWwindow* window = glfwCreateWindow(800, 600, "MEGA", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(800, 600, "MAGE Menu", NULL, NULL);
     if (!window) {
         std::cerr << "GLFW window creation failed!" << std::endl;
         glfwTerminate();
