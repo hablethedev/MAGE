@@ -60,12 +60,12 @@ int main() {
 
     if (ImGui::BeginPopup("New Project")) {
       ImGui::Text("This is a simple popup!");
-        if (ImGui::Button("Close")) {
-          ImGui::CloseCurrentPopup(); 
-        }
+      if (ImGui::Button("Close")) {
+        ImGui::CloseCurrentPopup(); 
+      }
       ImGui::EndPopup();
     }
-    
+
     if (ImGui::Button("Exit")) glfwSetWindowShouldClose(window, GLFW_TRUE);
     ImGui::End();
 
