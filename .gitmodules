@@ -1,3 +1,6 @@
 [submodule "src/lib/cmake-imgui"]
 	path = src/lib/cmake-imgui
 	url = https://github.com/giladreich/cmake-imgui.git
+[submodule "src/lib/imgui-filebrowser"]
+	path = src/lib/imgui-filebrowser
+	url = https://github.com/AirGuanZ/imgui-filebrowser.git

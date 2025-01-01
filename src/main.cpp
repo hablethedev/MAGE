@@ -5,6 +5,7 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include "projectsetup/projset.h"
+#include "imgui-filebrowser/imfilebrowser.h"
 
 static void key_callback(GLFWwindow * window, int key, int scancode, int action, int mods) {
   if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
@@ -37,6 +38,7 @@ int main() {
   ImGui_ImplGlfw_InitForOpenGL(window, true);
   ImGui_ImplOpenGL3_Init();
 
+  ImGui::FileBrowser pathDialog(ImGuiFileBrowserFlags_SelectDirectory);
   while (!glfwWindowShouldClose(window)) {
     glfwPollEvents();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -45,28 +47,33 @@ int main() {
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
-    ImGui::Begin("Project Manager", NULL, ImGuiWindowFlags_MenuBar);
-    if (ImGui::BeginMenuBar()) {
-      if (ImGui::BeginMenu("File")) {
-        if (ImGui::MenuItem("New Project")) {
-          ImGui::OpenPopup("New Project");
-        }
-        if (ImGui::MenuItem("Open Project")) {}
-        ImGui::EndMenu();
-      }
-      ImGui::EndMenuBar();
-    }
+    ImGui::Begin("Project Manager");
+
+    char projName[1024];
+    std::string projPath;
+
+    if (ImGui::Button("New Project")) ImGui::OpenPopup("New Project");
+    if (ImGui::Button("Exit")) glfwSetWindowShouldClose(window, GLFW_TRUE);
 
     if (ImGui::BeginPopup("New Project")) {
-      ImGui::Text("This is a simple popup!");
+      ImGui::InputText("Project Name", projName, IM_ARRAYSIZE(projName));
+      if (ImGui::Button("Choose Project Folder")) {
+        pathDialog.Open();
+      }
+      ImGui::Text(projPath.c_str());
       if (ImGui::Button("Close")) {
         ImGui::CloseCurrentPopup(); 
       }
       ImGui::EndPopup();
     }
-
-    if (ImGui::Button("Exit")) glfwSetWindowShouldClose(window, GLFW_TRUE);
     ImGui::End();
+
+    pathDialog.Display();
+
+    if (pathDialog.HasSelected()) {
+      projPath = pathDialog.GetSelected().string();
+      pathDialog.ClearSelected();
+    }
 
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
