@@ -7,10 +7,14 @@ set(SOURCES
 
 set(IMGUI_SOURCES
     src/lib/cmake-imgui/imgui/imgui.cpp
-    src/lib/cmake-imgui/imgui/imgui_demo.cpp
     src/lib/cmake-imgui/imgui/imgui_draw.cpp
     src/lib/cmake-imgui/imgui/imgui_widgets.cpp
+    src/lib/cmake-imgui/imgui/imgui_tables.cpp
+    src/lib/cmake-imgui/imgui/backends/imgui_impl_glfw.cpp
+    src/lib/cmake-imgui/imgui/backends/imgui_impl_opengl3.cpp
 )
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 find_package(glfw3 3.3 REQUIRED)
 include_directories(src/lib/cmake-imgui/imgui)
