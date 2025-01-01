@@ -4,6 +4,7 @@
 #include "backends/imgui_impl_opengl3.h"
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include "projectsetup/projset.h"
 
 bool window_manager_open = true;
 static void key_callback(GLFWwindow * window, int key, int scancode, int action, int mods) {
