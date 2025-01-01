@@ -1,0 +1,3 @@
+[submodule "src/lib/cmake-imgui"]
+	path = src/lib/cmake-imgui
+	url = https://github.com/giladreich/cmake-imgui.git
