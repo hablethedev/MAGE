@@ -6,7 +6,6 @@
 #include <iostream>
 #include "projectsetup/projset.h"
 
-bool window_manager_open = true;
 static void key_callback(GLFWwindow * window, int key, int scancode, int action, int mods) {
   if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
     glfwSetWindowShouldClose(window, GLFW_TRUE);
@@ -46,7 +45,7 @@ int main() {
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
-    ImGui::Begin("Project Manager", &window_manager_open, ImGuiWindowFlags_MenuBar);
+    ImGui::Begin("Project Manager", NULL, ImGuiWindowFlags_MenuBar);
     if (ImGui::BeginMenuBar()) {
       if (ImGui::BeginMenu("File")) {
         if (ImGui::MenuItem("New Project")) {
