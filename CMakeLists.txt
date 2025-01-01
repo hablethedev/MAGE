@@ -1,10 +1,21 @@
 cmake_minimum_required(VERSION 3.28)
 project(Mage)
-set(ImGui_DIR "src/lib/imgui-cmake")
-list(APPEND CMAKE_PREFIX_PATH ${ImGui_DIR})
-find_package(ImGui CONFIG REQUIRED)
+
+set(SOURCES
+    src/main.cpp
+)
+
+set(IMGUI_SOURCES
+    lib/cmake-imgui/imgui/imgui.cpp
+    lib/cmake-imgui/imgui/imgui_demo.cpp
+    lib/cmake-imgui/imgui/imgui_draw.cpp
+    lib/cmake-imgui/imgui/imgui_widgets.cpp
+    src/glad.c
+)
+
 find_package(glfw3 3.3 REQUIRED)
 include_directories(src/lib/)
 add_executable(mage src/main.cpp src/glad.c)
 target_link_libraries(mage glfw)
-target_link_libraries(mage PRIVATE ImGui::imgui)
+add_executable(MyIMGUIApp ${SOURCES} ${IMGUI_SOURCES})
+target_include_directories(MyIMGUIApp PRIVATE imgui)
