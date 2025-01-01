@@ -49,12 +49,23 @@ int main() {
     ImGui::Begin("Project Manager", &window_manager_open, ImGuiWindowFlags_MenuBar);
     if (ImGui::BeginMenuBar()) {
       if (ImGui::BeginMenu("File")) {
-        if (ImGui::MenuItem("New Project")) {}
+        if (ImGui::MenuItem("New Project")) {
+          ImGui::OpenPopup("New Project");
+        }
         if (ImGui::MenuItem("Open Project")) {}
         ImGui::EndMenu();
       }
       ImGui::EndMenuBar();
     }
+
+    if (ImGui::BeginPopup("New Project")) {
+      ImGui::Text("This is a simple popup!");
+        if (ImGui::Button("Close")) {
+          ImGui::CloseCurrentPopup(); 
+        }
+      ImGui::EndPopup();
+    }
+    
     if (ImGui::Button("Exit")) glfwSetWindowShouldClose(window, GLFW_TRUE);
     ImGui::End();
 
